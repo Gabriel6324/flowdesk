@@ -1,0 +1,9 @@
+{
+  "name": "@napi-rs/lzma-linux-x64-gnu",
+  "version": "1.5.1",
+  "license": "MIT",
+  "repository": {
+    "url": "git+https://github.com/Brooooooklyn/lzma.git",
+    "type": "git"
+  }
+}

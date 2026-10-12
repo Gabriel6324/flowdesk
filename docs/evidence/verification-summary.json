@@ -1,0 +1,51 @@
+{
+  "software_version": "0.1.2",
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "go_vet": "passed",
+  "go_race": {
+    "tested_packages": [
+      "flowdesk/cmd/flowdesk",
+      "flowdesk/internal/ai",
+      "flowdesk/internal/auth",
+      "flowdesk/internal/domain",
+      "flowdesk/internal/platform",
+      "flowdesk/internal/httpapi",
+      "flowdesk/internal/repository",
+      "flowdesk/internal/testkit",
+      "flowdesk/internal/service",
+      "flowdesk/internal/worker"
+    ],
+    "top_level_tests": 60,
+    "leaf_tests": 84,
+    "pass_events_including_subtest_parents": 93
+  },
+  "frontend": {
+    "environment": "Vitest/jsdom; actual command result recorded",
+    "tests": 32,
+    "files": 11,
+    "production_typescript_vite_build": "passed"
+  },
+  "openapi_operations": 37,
+  "guide_codes": 62,
+  "process_smoke_checks": 41,
+  "personal_workspace_checks": 18,
+  "browser_checks": 15,
+  "mock_pilot": {
+    "trials": 16,
+    "actual_requests": 24,
+    "succeeded": 16,
+    "human_review": "unreviewed"
+  },
+  "pending": [
+    "native Windows launch/path/exit",
+    "Docker image build/TLS/restart/volume",
+    "live model pilot/holdout",
+    "independent human semantic review",
+    "public hosting/remote CI"
+  ],
+  "limits": [
+    "Tests do not prove absence of every bug",
+    "Cross-compilation is not native execution",
+    "Mock protocol success is not real model quality"
+  ]
+}

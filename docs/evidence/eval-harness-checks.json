@@ -1,0 +1,20 @@
+{
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "plan": {
+    "planned": 192,
+    "actual_requests": 0,
+    "status": "passed"
+  },
+  "request_cap": {
+    "limit": 3,
+    "actual_requests": 3,
+    "stop_reason": "request_limit",
+    "status": "passed"
+  },
+  "unconsented_live": {
+    "status": "refused_before_execution",
+    "exit_code": 1,
+    "message": "Evaluation stopped: live requires explicit cost acknowledgement, positive request/cost caps and declared pricing"
+  },
+  "paid_provider_requests": 0
+}

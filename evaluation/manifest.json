@@ -1,0 +1,20 @@
+{
+  "version": "synthetic-support-v1",
+  "distinct_cases": 64,
+  "development": 16,
+  "holdout": 48,
+  "slices": 8,
+  "seed": 20261011,
+  "sha256": {
+    "gold/criteria.json": "f8a2ce45ed9a4a10dec25846d7d09c4be76a954d738e03b9e66e674c824a2940",
+    "input/cases.json": "358089ed65e75ef534299d9e22c93c5a69d60faa4e33b3d878fefbad8f53e330",
+    "input/knowledge.json": "e651bfdb8e75c2754807ca953c4471b8f57fc39d8ea848e929e827efe17218ca",
+    "rubric.json": "281fc94f043d59affc24525d80d57e827e57d983237ce8c7d38015f4bdb26753"
+  },
+  "limitations": [
+    "Synthetic data only",
+    "No human quality results yet",
+    "Gold must never enter provider messages",
+    "Regeneration or tuning after holdout invalidates the frozen comparison"
+  ]
+}

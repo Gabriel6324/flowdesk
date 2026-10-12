@@ -1,0 +1,17 @@
+{
+  "version": "human-grounding-v1",
+  "human_fields": [
+    "grounded",
+    "required_facts",
+    "forbidden_claims",
+    "scope_compliant"
+  ],
+  "values": [
+    "pass",
+    "fail",
+    "unreviewed"
+  ],
+  "require_reviewer_and_reason": true,
+  "overall": "execution AND category AND priority AND clarification AND all four human fields pass",
+  "warning": "Synthetic cases. Citation identity and label agreement do not prove semantic grounding. Holdout changes after review require a new holdout."
+}

@@ -1,0 +1,14 @@
+web/node_modules/
+build/
+data/
+*.db
+*.db-*
+*.log
+*.exe
+.DS_Store
+*.key
+backups/
+evaluation/runs/
+release/
+__pycache__/
+web/dist/

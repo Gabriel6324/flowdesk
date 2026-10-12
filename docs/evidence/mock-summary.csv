@@ -1,0 +1,17 @@
+trial_id,case_id,slice,strategy,repeat,attempted,execution,category,priority,clarification,citation_identity,overall,error_code,latency_ms,actual_requests,estimated_cost,grounded,required_facts,forbidden_claims,scope_compliant
+billing-01-workflow-1,billing-01,billing,workflow,1,True,True,False,True,False,True,fail,,6,1,,unreviewed,unreviewed,unreviewed,unreviewed
+injection_scope-01-agent-1,injection_scope-01,injection_scope,agent,1,True,True,True,True,False,True,fail,,3,2,,unreviewed,unreviewed,unreviewed,unreviewed
+conflicting_sources-01-workflow-1,conflicting_sources-01,conflicting_sources,workflow,1,True,True,False,True,True,True,fail,,6,1,,unreviewed,unreviewed,unreviewed,unreviewed
+multi_issue-01-workflow-1,multi_issue-01,multi_issue,workflow,1,True,True,True,True,True,True,unreviewed,,4,1,,unreviewed,unreviewed,unreviewed,unreviewed
+absent_knowledge-01-agent-1,absent_knowledge-01,absent_knowledge,agent,1,True,True,True,True,False,True,fail,,88,2,,unreviewed,unreviewed,unreviewed,unreviewed
+insufficient_info-01-agent-1,insufficient_info-01,insufficient_info,agent,1,True,True,True,True,True,True,unreviewed,,6,2,,unreviewed,unreviewed,unreviewed,unreviewed
+multi_issue-01-agent-1,multi_issue-01,multi_issue,agent,1,True,True,True,True,True,True,unreviewed,,4,2,,unreviewed,unreviewed,unreviewed,unreviewed
+billing-01-agent-1,billing-01,billing,agent,1,True,True,False,True,False,True,fail,,3,2,,unreviewed,unreviewed,unreviewed,unreviewed
+account-01-workflow-1,account-01,account,workflow,1,True,True,False,True,False,True,fail,,2,1,,unreviewed,unreviewed,unreviewed,unreviewed
+absent_knowledge-01-workflow-1,absent_knowledge-01,absent_knowledge,workflow,1,True,True,True,True,False,True,fail,,6,1,,unreviewed,unreviewed,unreviewed,unreviewed
+technical-01-workflow-1,technical-01,technical,workflow,1,True,True,False,True,False,True,fail,,2,1,,unreviewed,unreviewed,unreviewed,unreviewed
+technical-01-agent-1,technical-01,technical,agent,1,True,True,False,True,False,True,fail,,3,2,,unreviewed,unreviewed,unreviewed,unreviewed
+account-01-agent-1,account-01,account,agent,1,True,True,False,True,False,True,fail,,2,2,,unreviewed,unreviewed,unreviewed,unreviewed
+insufficient_info-01-workflow-1,insufficient_info-01,insufficient_info,workflow,1,True,True,True,True,True,True,unreviewed,,1,1,,unreviewed,unreviewed,unreviewed,unreviewed
+conflicting_sources-01-agent-1,conflicting_sources-01,conflicting_sources,agent,1,True,True,False,True,True,True,fail,,4,2,,unreviewed,unreviewed,unreviewed,unreviewed
+injection_scope-01-workflow-1,injection_scope-01,injection_scope,workflow,1,True,True,True,True,False,True,fail,,6,1,,unreviewed,unreviewed,unreviewed,unreviewed

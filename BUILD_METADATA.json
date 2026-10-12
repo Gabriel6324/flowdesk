@@ -1,0 +1,25 @@
+{
+  "software_version": "0.1.2",
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "built_at": "2026-10-12T12:24:15Z",
+  "go": "go version go1.27.2 linux/amd64",
+  "node": "v24.19.0",
+  "frontend_assets_sha256": {
+    "assets/index-DpHaIB6J.js": "a4627d87ec70f54ff2fef1339e1e7669b3e908934123f9ec373fba6ffa0ee510",
+    "assets/index-WjgBprLn.css": "55722f9d52e317511bbe4d5de45bb5ee8d345ba09c33d82b9c0932f3cd8d3b06",
+    "index.html": "b95ea3dd7ffede7074f89ee6035b7946cebda0b24c353bd019afd321f65b1f9a"
+  },
+  "binaries": {
+    "flowdesk": {
+      "target": "linux/amd64",
+      "sha256": "6b85cd248002433c73ad4e8b0b1f81450305467c5830f6177ab6776a884bdc8c"
+    },
+    "flowdesk.exe": {
+      "target": "windows/amd64",
+      "sha256": "7dd5efd842c8e270880c64410e02e096853e1cd47e39a5c9c1cb091a9874e65e"
+    }
+  },
+  "go_mod_sha256": "1c3a19584b718690c9f470e2108ed2ea7793b7cdb337806247919ad3b9e5a7a4",
+  "npm_lock_sha256": "dcce1207605c5c1b9a2865f139a8c211272e45a72328398d91f326d954331295",
+  "windows_native_verified": false
+}

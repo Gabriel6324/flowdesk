@@ -1,0 +1,10 @@
+{
+  "name": "stackback",
+  "version": "0.0.2",
+  "license": "MIT",
+  "author": "Roman Shtylman <shtylman@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shtylman/node-stackback.git"
+  }
+}

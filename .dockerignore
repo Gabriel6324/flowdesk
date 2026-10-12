@@ -1,0 +1,13 @@
+.git
+build
+data
+web/node_modules
+*.db
+*.db-*
+*.key
+*.log
+*.exe
+*_INTERNAL_*
+evaluation/runs
+docs/evidence
+

@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> flowdesk-web@0.1.2 test
+> vitest run
+
+
+ RUN  v3.2.7 ./web
+
+ ✓ src/WorkspaceSetup.test.tsx (2 tests) 363ms
+   ✓ links an empty workspace to real setup steps without claiming a model is connected  322ms
+ ✓ src/ui.test.tsx (2 tests) 340ms
+ ✓ src/workspace.test.tsx (2 tests) 563ms
+   ✓ workspace feedback > keeps failure across pages, shows guidance and closes with X  492ms
+ ✓ src/Login.test.tsx (2 tests) 675ms
+   ✓ retains explicit quick login for the separate demo workspace  454ms
+ ✓ src/Jobs.test.tsx (1 test) 606ms
+   ✓ cannot retry before the current model mode and fee-consent version load  604ms
+ ✓ src/Knowledge.test.tsx (1 test) 853ms
+   ✓ imports editable text locally and only persists it after explicit save  850ms
+ ✓ src/session.test.tsx (3 tests) 60ms
+ ✓ src/knowledge-file.test.ts (3 tests) 14ms
+ ✓ src/vault.test.ts (4 tests) 34ms
+ ✓ src/api.test.ts (6 tests) 52ms
+ ✓ src/TicketDetail.test.tsx (6 tests) 6719ms
+   ✓ ticket review interactions > adds new result above old cards and preserves a selected manual edit  989ms
+   ✓ ticket review interactions > requires acknowledgements, binds them to review token and keeps edited text  816ms
+   ✓ completed operation feedback > announces publication immediately after the server confirms success  308ms
+   ✓ completed operation feedback > keeps the confirmation and never announces success when publishing fails  405ms
+   ✓ completed operation feedback > refreshes a finished job and its draft together for admin despite older separate responses  2116ms
+   ✓ completed operation feedback > refreshes a finished job and its draft together for agent despite older separate responses  2082ms
+
+ Test Files  11 passed (11)
+      Tests  32 passed (32)
+   Start at  19:44:22
+   Duration  10.11s (transform 1.68s, setup 4.10s, collect 5.90s, tests 10.28s, environment 12.39s, prepare 2.22s)
+

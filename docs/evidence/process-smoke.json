@@ -1,0 +1,104 @@
+{
+  "version_output": "FlowDesk 0.1.2; source=9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7; built=2026-10-12T12:24:15Z; go1.27.2 linux/amd64",
+  "checks": [
+    {
+      "check": "desktop startup and health",
+      "status": "passed"
+    },
+    {
+      "check": "embedded HTML JavaScript CSS and security headers",
+      "status": "passed"
+    },
+    {
+      "check": "real HTTP create and idempotent replay",
+      "status": "passed"
+    },
+    {
+      "check": "requester excludes internal note and task pointer",
+      "status": "passed"
+    },
+    {
+      "check": "demo durable job, source snapshot and zero provider calls",
+      "status": "passed"
+    },
+    {
+      "check": "suggestion selection and exact human-reviewed public reply",
+      "status": "passed"
+    },
+    {
+      "check": "exclusive process lock",
+      "status": "passed"
+    },
+    {
+      "check": "process stopped before DB close (Linux graceful; Windows terminate only)",
+      "status": "passed"
+    },
+    {
+      "check": "offline consistent paired backup and version manifest",
+      "status": "passed"
+    },
+    {
+      "check": "restart preserves workspace, session and immutable public history",
+      "status": "passed"
+    },
+    {
+      "check": "new generation prepends blocks and preserves prior cycle history",
+      "status": "passed"
+    },
+    {
+      "check": "filtered CSV HTTP export",
+      "status": "passed"
+    },
+    {
+      "check": "offline password reset invalidates old session",
+      "status": "passed"
+    },
+    {
+      "check": "missing key preserves ordinary business reads and reports degraded key health",
+      "status": "passed"
+    },
+    {
+      "check": "offline keystore recovery preserves business database",
+      "status": "passed"
+    },
+    {
+      "check": "server rejects desktop workspace",
+      "status": "passed"
+    },
+    {
+      "check": "server bootstrap, fixed Host, secure cookie attributes and CLI readiness",
+      "status": "passed"
+    },
+    {
+      "check": "read-only diagnosis never creates a missing workspace",
+      "status": "passed"
+    },
+    {
+      "check": "offline commands refuse to initialize an empty workspace",
+      "status": "passed"
+    },
+    {
+      "check": "interrupted first launch resumes in Unicode/special-character path without resetting key or duplicating seed",
+      "status": "passed"
+    },
+    {
+      "check": "foreign schema rejected with stage/path and no database/key rewrite",
+      "status": "passed"
+    },
+    {
+      "check": "corrupt file gets corruption guidance instead of schema-version guidance",
+      "status": "passed"
+    },
+    {
+      "check": "real 0.1.0 workspace upgrades preserving session, ticket, published reply, workspace identity and key",
+      "status": "passed"
+    }
+  ],
+  "embedded_assets_sha256": {
+    "/assets/index-DpHaIB6J.js": "a4627d87ec70f54ff2fef1339e1e7669b3e908934123f9ec373fba6ffa0ee510",
+    "/assets/index-WjgBprLn.css": "55722f9d52e317511bbe4d5de45bb5ee8d345ba09c33d82b9c0932f3cd8d3b06"
+  },
+  "scope": "native process/API only; no real browser/provider",
+  "upgrade_from_version": "FlowDesk 0.1.0; source=76748e9905f57118eefb3bb2979236934d6c17b06bb1ede656af1ca67c8817c3; built=2026-10-11T22:36:57Z; go1.27.2 linux/amd64",
+  "windows_graceful_exit_verified": false
+}

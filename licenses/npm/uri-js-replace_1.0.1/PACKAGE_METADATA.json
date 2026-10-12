@@ -1,0 +1,10 @@
+{
+  "name": "uri-js-replace",
+  "version": "1.0.1",
+  "license": "MIT",
+  "author": "https://github.com/andreinwald",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreinwald/uri-js-replace.git"
+  }
+}

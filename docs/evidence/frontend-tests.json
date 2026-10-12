@@ -1,0 +1,12 @@
+{
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "environment": "Vitest/jsdom",
+  "files": 11,
+  "tests": 32,
+  "status": "passed",
+  "production_build": "strict TypeScript and Vite passed",
+  "logs": [
+    "frontend-tests.txt",
+    "frontend-build.txt"
+  ]
+}

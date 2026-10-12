@@ -1,0 +1,7 @@
+{
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "target": "windows/amd64",
+  "compile": "passed",
+  "binary_sha256": "7dd5efd842c8e270880c64410e02e096853e1cd47e39a5c9c1cb091a9874e65e",
+  "native_execution_verified": false
+}

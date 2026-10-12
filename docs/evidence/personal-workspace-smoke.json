@@ -1,0 +1,81 @@
+{
+  "version_output": "FlowDesk 0.1.2; source=9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7; built=2026-10-12T12:24:15Z; go1.27.2 linux/amd64",
+  "checks": [
+    {
+      "check": "first personal launch creates own account and hides public quick-login credentials",
+      "status": "passed"
+    },
+    {
+      "check": "personal workspace starts without sample tickets or knowledge and reports truthful setup",
+      "status": "passed"
+    },
+    {
+      "check": "public demo password cannot enter personal workspace",
+      "status": "passed"
+    },
+    {
+      "check": "personal user creation rejects reserved public demo accounts",
+      "status": "passed"
+    },
+    {
+      "check": "own staff and requester accounts authenticate with separate roles",
+      "status": "passed"
+    },
+    {
+      "check": "real public knowledge is stored and remains staff-only",
+      "status": "passed"
+    },
+    {
+      "check": "own requester submits an actual persistent ticket",
+      "status": "passed"
+    },
+    {
+      "check": "encrypted live settings persist and readiness says configured rather than proven quality",
+      "status": "passed"
+    },
+    {
+      "check": "native program sends a basic connection test through the local provider",
+      "status": "passed"
+    },
+    {
+      "check": "missing live fee/configuration confirmation creates no task or provider call",
+      "status": "passed"
+    },
+    {
+      "check": "workflow uses live dispatch with persisted usage and one provider request",
+      "status": "passed"
+    },
+    {
+      "check": "human-approved reply is exact and requester never receives staff job/draft snapshot",
+      "status": "passed"
+    },
+    {
+      "check": "staff agent uses real tool-dispatch protocol and completes after two local model calls",
+      "status": "passed"
+    },
+    {
+      "check": "provider failure has precise guide code, keeps old results and does not retry automatically",
+      "status": "passed"
+    },
+    {
+      "check": "forty rapid generations across admin and staff keep job, pointer and new result consistent",
+      "status": "passed"
+    },
+    {
+      "check": "personal restart preserves session, key, accounts, published reply and makes no model replay",
+      "status": "passed"
+    },
+    {
+      "check": "private accounts are not reseeded and completed jobs retain no encrypted secret snapshots",
+      "status": "passed"
+    },
+    {
+      "check": "genuine 0.1.1 executable upgrades without replacing existing reply, session or key",
+      "status": "passed"
+    }
+  ],
+  "consistent_snapshot_reads": 126,
+  "local_mock_provider_requests": 45,
+  "upgrade_from_version": "FlowDesk 0.1.1; source=a4e2b9428b4a3105dedceb53c9d59dda075758fb255a138d552e6b7eb797c970; built=2026-10-12T00:44:17Z; go1.27.2 linux/amd64",
+  "scope": "native Linux process/API; local fake provider only; no real model quality claim"
+}

@@ -1,0 +1,165 @@
+{
+  "rubric_version": "human-grounding-v1",
+  "trials": {
+    "billing-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "injection_scope-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "conflicting_sources-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "multi_issue-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "absent_knowledge-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "insufficient_info-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "multi_issue-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "billing-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "account-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "absent_knowledge-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "technical-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "technical-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "account-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "insufficient_info-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "conflicting_sources-01-agent-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    },
+    "injection_scope-01-workflow-1": {
+      "reviewer": "",
+      "reason": "",
+      "verdicts": {
+        "grounded": "unreviewed",
+        "required_facts": "unreviewed",
+        "forbidden_claims": "unreviewed",
+        "scope_compliant": "unreviewed"
+      }
+    }
+  }
+}

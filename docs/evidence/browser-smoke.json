@@ -1,0 +1,68 @@
+{
+  "source_input_sha256": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "version_output": "FlowDesk 0.1.2; source=9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7; built=2026-10-12T12:24:15Z; go1.27.2 linux/amd64",
+  "browser": "153.0.8010.0",
+  "checks": [
+    {
+      "check": "personal login hides public demo account buttons and password",
+      "status": "passed"
+    },
+    {
+      "check": "own administrator logs in and sees actual preparation checklist",
+      "status": "passed"
+    },
+    {
+      "check": "actual file picker imports UTF-8 Markdown without saving implicitly",
+      "status": "passed"
+    },
+    {
+      "check": "explicit save persists imported knowledge and shows completion feedback",
+      "status": "passed"
+    },
+    {
+      "check": "administrator rapid generations show new results and remove running-only cancellation controls",
+      "status": "passed"
+    },
+    {
+      "check": "staff rapid generations keep ten ordered history blocks without stale cancellation",
+      "status": "passed"
+    },
+    {
+      "check": "returning to a completed ticket preserves history and never reopens running controls",
+      "status": "passed"
+    },
+    {
+      "check": "publication success is visible immediately after confirmation and modal closes",
+      "status": "passed"
+    },
+    {
+      "check": "publication success notice can be closed with X",
+      "status": "passed"
+    },
+    {
+      "check": "published draft retains explicit published status after the transient notice closes",
+      "status": "passed"
+    },
+    {
+      "check": "requester sees exact published text and never sees staff drafts",
+      "status": "passed"
+    },
+    {
+      "check": "390px ticket layout has no horizontal document overflow",
+      "status": "passed"
+    },
+    {
+      "check": "model connection test stays disabled until a real configuration is saved",
+      "status": "passed"
+    },
+    {
+      "check": "390px model configuration layout has no horizontal document overflow",
+      "status": "passed"
+    },
+    {
+      "check": "tested browser pages have no uncaught JavaScript errors",
+      "status": "passed"
+    }
+  ],
+  "scope": "headless Chromium on Linux; temporary personal workspace; offline demo rules for UI generation; live protocol checked separately"
+}

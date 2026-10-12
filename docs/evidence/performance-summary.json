@@ -1,0 +1,111 @@
+{
+  "software_version": "0.1.2",
+  "source_hash": "9256df8e32d5452abbd90802beb5873a9b06fc3afe94d710d1aabfd8464ef7d7",
+  "created_at": "2026-10-12T12:25:42Z",
+  "go_version": "go1.27.2",
+  "os": "linux",
+  "arch": "amd64",
+  "logical_cpus": 9,
+  "gomaxprocs": 8,
+  "cgroup_cpu_max": "800000 100000",
+  "cgroup_memory_max": "8589934592",
+  "sqlite_version": "3.53.4",
+  "initial_tickets": 1000,
+  "articles": 100,
+  "warmup_seconds": 10,
+  "mix": "70% list reads / 20% priority edits on per-client tickets (GET revision + PATCH) / 10% dashboard; seed=20261011; idempotency cache omitted for sustained isolated writes",
+  "kdf_iterations": 600000,
+  "kdf_sequential_samples_ms": [
+    227.788,
+    236.942,
+    271.005,
+    260.416,
+    234.006,
+    211.576,
+    326.461,
+    246.27,
+    188.19,
+    218.085
+  ],
+  "kdf_median_ms": 234.006,
+  "resources": {
+    "heap_peak_bytes": 11901832,
+    "linux_rss_peak_bytes": 40148992,
+    "goroutine_peak": 145
+  },
+  "mock_queue": {
+    "accepted": 50,
+    "active_limit": 50,
+    "artificial_provider_delay_ms": 250,
+    "elapsed_seconds": 6.909399004,
+    "enqueue_statuses": {
+      "202": 50,
+      "429": 10
+    },
+    "queue_empty_after_drain": true,
+    "recorded_calls": 50,
+    "submitted": 60,
+    "terminal_statuses": {
+      "succeeded": 50
+    },
+    "workers": 2
+  },
+  "limitations": [
+    "Closed-loop local net/http load, not open-loop production capacity",
+    "Sessions are prepared before measurement; KDF measured separately",
+    "Writes include revision-refresh GET; every HTTP status is retained",
+    "Request deadline/drain 5 seconds; status 0 counts as timeout/network failure",
+    "Mock queue duration is artificial, not real model speed",
+    "RSS/heap/goroutines include this local client and server process"
+  ],
+  "phases": [
+    {
+      "concurrency": 1,
+      "window_seconds": 30,
+      "drain_seconds": 0.187007145,
+      "logical_operations": 5693,
+      "window_boundary_skips": 1,
+      "http_requests": 6831,
+      "http_requests_per_second": 227.7,
+      "status_counts": {
+        "200": 6831
+      },
+      "p50_ms": 1.666,
+      "p95_ms": 7.055,
+      "p99_ms": 18.253,
+      "timeouts": 0
+    },
+    {
+      "concurrency": 10,
+      "window_seconds": 30,
+      "drain_seconds": 0.007435476,
+      "logical_operations": 14542,
+      "window_boundary_skips": 2,
+      "http_requests": 17487,
+      "http_requests_per_second": 582.9,
+      "status_counts": {
+        "200": 17487
+      },
+      "p50_ms": 13.217,
+      "p95_ms": 40.012,
+      "p99_ms": 67.29,
+      "timeouts": 0
+    },
+    {
+      "concurrency": 25,
+      "window_seconds": 30,
+      "drain_seconds": 0.017894396,
+      "logical_operations": 21618,
+      "window_boundary_skips": 6,
+      "http_requests": 25925,
+      "http_requests_per_second": 864.1666666666666,
+      "status_counts": {
+        "200": 25925
+      },
+      "p50_ms": 24.967,
+      "p95_ms": 63.534,
+      "p99_ms": 89.871,
+      "timeouts": 0
+    }
+  ]
+}
