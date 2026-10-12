@@ -1,0 +1,61 @@
+name: Import verified FlowDesk source
+on:
+  push:
+    paths:
+      - '.github/workflows/import-verified-source.yml'
+permissions:
+  contents: write
+concurrency:
+  group: import-verified-flowdesk-source
+  cancel-in-progress: false
+jobs:
+  import:
+    if: github.repository == 'Gabriel6324/flowdesk'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Verify and expand the approved source archive
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import hashlib, subprocess, zipfile
+          archive = Path('FlowDesk_0.1.2_source.zip')
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'db643b8d50b8a7bd6d71d3ae1a0c1e201df1b7e22d8670a765bfa80efb05ace2'
+          allowed_initial = {'FlowDesk_0.1.2_source.zip', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', '.github/workflows/import-verified-source.yml'}
+          tracked = set(subprocess.check_output(['git', 'ls-files', '-z']).decode().rstrip('\0').split('\0'))
+          assert tracked == allowed_initial, 'Unexpected existing repository files; stop without overwriting them'
+          with zipfile.ZipFile(archive) as z:
+              entries = [x for x in z.infolist() if not x.is_dir()]
+              assert len(entries) == 342 and sum(x.file_size for x in entries) == 2380253
+              for entry in entries:
+                  parts = PurePosixPath(entry.filename).parts
+                  assert len(parts) > 1 and parts[0] == 'flowdesk'
+                  relative = PurePosixPath(*parts[1:])
+                  assert not relative.is_absolute() and '..' not in relative.parts and '.git' not in relative.parts
+                  assert ((entry.external_attr >> 16) & 0o170000) in (0, 0o100000), 'Non-regular archive entry'
+                  if relative.parts[:2] == ('.github', 'workflows'):
+                      assert str(relative) == '.github/workflows/ci.yml'
+                      continue
+                  target = Path(*relative.parts)
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(z.read(entry.filename))
+                  target.chmod(0o755 if ((entry.external_attr >> 16) & 0o111) else 0o644)
+          archive.unlink()
+          PY
+      - name: Commit the verified source tree
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all --force -- .
+          python3 - <<'PY'
+          import subprocess
+          license_path = 'licenses/npm/decimal.js_10.6.0/LICENCE.md'
+          license_blob = subprocess.check_output(['git', 'hash-object', '-w', '--no-filters', license_path]).decode().strip()
+          assert license_blob == '57740b9d4d86aedf5d518f2f363d5cf192c54127'
+          subprocess.run(['git', 'update-index', '--add', '--cacheinfo', '100644', license_blob, license_path], check=True)
+          paths = subprocess.check_output(['git', 'diff', '--cached', '--name-only', '-z']).decode().rstrip('\0').split('\0')
+          assert not any(p.startswith('.github/workflows/') for p in paths), 'Workflow changes must be completed through the owner UI'
+          PY
+          git commit -m 'Import verified FlowDesk 0.1.2 source and verification records'
+          git push origin HEAD:main
