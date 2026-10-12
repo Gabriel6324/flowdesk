@@ -1,2 +1,77 @@
-# flowdesk
-AI-assisted support ticket workspace built with Go, React/TypeScript and SQLite, with human-reviewed replies, durable jobs and a bounded read-only agent.
+# FlowDesk 0.1.2
+
+FlowDesk 是面向产品咨询与技术支持的技术支持工单协作台。客户提交问题，工作人员处理，AI 参考公开知识库生成摘要、分类及回复草稿；工作人员核对来源、编辑并确认后，客户才会看到正式回复。
+
+Go HTTP 服务、React/TypeScript 界面和 SQLite 组成一个可独立运行的程序。它支持单工作区、单应用进程和三个角色，不依赖外置数据库。个人工作台使用自己的账号、资料和工单；可接入真实模型，也能人工处理。独立示例体验使用离线规则，不发送模型请求。
+
+## 启动
+
+Windows x64：解压便携包，运行 **启动个人工作台.cmd**。首次在终端设置管理员邮箱、显示名称和密码，随后登录。Linux amd64：解压后执行 `chmod +x flowdesk run-workspace.sh && ./run-workspace.sh`。保持终端窗口运行；在终端按 Ctrl+C 退出。浏览器通常自动打开；无法自动打开时，复制终端显示的地址。
+
+默认只监听 IPv4 `127.0.0.1`，从8787开始尝试到8797。显式指定 `--listen` 时不会自动更换端口。数据默认保存到本机用户目录（Windows 为 `%LOCALAPPDATA%\FlowDesk`；Linux 按 XDG data home），独立于解压目录。个人工作台默认保存在该目录下的 `workspace` 子目录，不创建示例数据。示例体验仍使用原 FlowDesk 数据目录，通过「启动FlowDesk.cmd」或 `./run.sh` 进入。两者互不清空数据。指定 `--data-dir` 时使用该目录；个人工作台可用 `--workspace` 选择。
+
+以下账户仅用于独立示例体验。个人工作台不会创建这些账户；其管理员可在总览准备清单中添加人员、录入资料和配置模型。
+
+桌面演示账户共用公开密码 **FlowDeskDemo!2026**：
+
+| 角色 | 邮箱 | 可以做什么 |
+| --- | --- | --- |
+| 管理员 | admin@flowdesk.demo | 用户、模型配置及工作人员功能 |
+| 工作人员 | agent@flowdesk.demo | 工单处理、公开知识、AI草稿及人工审核 |
+| 客户 | customer@flowdesk.demo | 自己的工单、公开交流及已发布回复 |
+
+这些是公开的本机演示凭据。服务器模式使用独立数据目录并离线初始化管理员，不会创建这些账户。Windows 包经过交叉编译，原生启动与浏览器排版仍需平台验收；详细实测状态见 [验证记录](docs/VERIFICATION.md)。
+
+从 0.1.0 更新：关闭旧程序，解压新包并启动，继续使用原数据目录。0.1.1 修复 Windows 数据库路径和中断首次初始化的空库误报；不会重置已有工单或密钥。遇到启动错误，可运行「故障诊断.cmd」查看只读报告。详细说明见 [运行与恢复](docs/OPERATIONS.md)及[版本记录](docs/CHANGELOG.md)。
+
+## 体验一条完整流程
+
+1. 新的个人工作台先添加人员、录入允许公开的资料；支持导入 UTF-8 TXT / Markdown 并编辑后保存。
+2. 管理员或工作人员进入工单，查看客户问题和公开交流。
+3. 选择「生成草稿」。默认 demo 不使用模型；workflow 和 agent 的协议及限制可在帮助中查看。
+4. 查看来源摘录及版本，选择是否采纳分类/优先级建议，编辑回复正文。
+5. 在预览中确认发布。资料已改动、无依据或交流被截断时，须完成相应确认。
+6. 退出后用客户账户查看自己的正式回复。再次生成会在上方增加新结果块，旧结果与已发布正文保留。
+7. 可演示退回、取消、重新打开工单或补充公开交流；历史草稿不会覆盖当前轮次的回复。
+
+## 模型接口
+
+管理员进入「模型配置」，填写兼容 Chat Completions 的 **API基础地址、模型名称和API密钥**，保存后再显式测试连接。基础地址一般以 `/v1` 结尾，程序会追加 `/chat/completions`。这里的密钥属于模型服务商，与客户工单里提到的API密钥不同。
+
+真实模式需要手动确认可能产生的费用；API 调用必须传入当前 `expected_config_version`，缺少或过期的确认不会创建任务。workflow 最多一次请求；只读 agent 最多四次请求、六次工具调用，只能读取当前工单快照和公开知识。任务失败、取消或重启均不会自动重新请求模型。未知用量显示未知，价格配置仅用于估算，不能作为账单。
+
+密钥加密保存，界面不回显。密钥文件丢失时，现有工单及 demo 仍可使用；离线恢复会清除旧模型密钥并保留业务数据。操作步骤见 [运行与恢复](docs/OPERATIONS.md)。
+
+## 功能与运行边界
+
+- 工单筛选、分页、分派、公开评论、内部备注、人工直接回复和重新打开。
+- 有版本的公开知识库、UTF-8 TXT/Markdown 导入（单篇 20,000 字符、80,000 字节）、归档、来源快照与审核记录。
+- 两个持久任务 worker；同一工单最多一个活跃任务，工作区最多50个。
+- 有限队列、角色权限、会话撤销、CAS版本冲突及事务幂等。
+- 每种已分类故障有独立说明和操作引导；提醒跨页面保留，支持查看详情和关闭。
+- 当前筛选结果可导出 JSON/CSV，最多2000条，超限须缩小范围。
+- 离线服务器初始化、管理员密码重置、配套备份和密钥恢复。
+
+知识库只能放允许对外使用的资料。此版本不支持 PDF/Word 导入、工单附件、向量数据库、多租户、自动退款、发送邮件或操作外部系统。真实输出仍需人工核对，引用ID合法不代表内容必定正确。
+
+## 开发与验证
+
+需要 Go1.27.2、Node24.19.0 和 Python3。最低 Go 模块版本为1.26.0；具体依赖由锁文件固定。初次构建先生成前端，随后才能编译包含界面的Go程序：
+
+```bash
+npm ci --prefix web
+python tools/check_contract.py
+npm test --prefix web
+npm run build --prefix web
+go vet ./...
+go test -race -timeout 180s ./...
+go build -buildvcs=false -o build/flowdesk ./cmd/flowdesk
+./build/flowdesk --no-browser
+```
+
+`go test -race` 适用于支持 race 的本机工具链；Windows CI 单独执行普通测试。前端开发代理指向8787，最终程序始终使用同源静态资产和API。API契约在 [api/openapi.json](api/openapi.json)，更新流程见 [开发说明](docs/DEVELOPMENT.md)。
+
+[架构](docs/ARCHITECTURE.md) · [运行与恢复](docs/OPERATIONS.md) · [服务器部署](docs/DEPLOYMENT.md) · [独立评测](evaluation/README.md) · [验证记录](docs/VERIFICATION.md) · [第三方许可](THIRD_PARTY_NOTICES.md)
+
+软件版本、公开源码输入哈希及构建时间可通过 `flowdesk --version` 查看。本源码包不含工作区数据库、模型密钥或私有运行日志。容器配置和远程CI流程已提供；未实际执行的验证不会写为通过。
+
