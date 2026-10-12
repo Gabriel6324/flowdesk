@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Real process/API smoke. No browser automation, real provider or user workspace."""
-import argparse,hashlib,json,os,re,signal,socket,sqlite3,subprocess,tempfile,time,urllib.error,urllib.parse,urllib.request,uuid
+import argparse,contextlib,hashlib,json,os,re,signal,socket,sqlite3,subprocess,tempfile,time,urllib.error,urllib.parse,urllib.request,uuid
 from pathlib import Path
 from release_version import VERSION
 p=argparse.ArgumentParser();p.add_argument("--binary",type=Path,required=True);p.add_argument("--out",type=Path,required=True);p.add_argument("--upgrade-from",type=Path);a=p.parse_args()
@@ -36,7 +36,7 @@ def start(data,profile="desktop",origin=None,executable=None):
  proc=subprocess.Popen(args,stdout=fp,stderr=subprocess.STDOUT);children.append((proc,fp));client=Client(base,origin)
  deadline=time.monotonic()+20
  while time.monotonic()<deadline:
-  if proc.poll() is not None:raise AssertionError(f"process stopped: {log.read_text(errors='replace')[-700:]}")
+  if proc.poll() is not None:raise AssertionError(f"process stopped: {log.read_text(encoding='utf-8',errors='replace')[-700:]}")
   try:client.request("GET","/api/ready");return proc,client
   except (urllib.error.URLError,TimeoutError):time.sleep(.05)
  raise AssertionError("startup deadline")
@@ -50,11 +50,18 @@ def stop(proc):
  for child,fp in children:
   if child is proc and proc.poll() is not None:fp.close()
 def offline(data,*flags,stdin=None,want=0):
- result=subprocess.run([str(binary),"--data-dir",str(data),*flags],input=stdin,text=True,capture_output=True,timeout=20)
+ result=subprocess.run([str(binary),"--data-dir",str(data),*flags],input=stdin,text=True,encoding="utf-8",capture_output=True,timeout=20)
  if result.returncode!=want:raise AssertionError(f"offline command failed {flags}: {result.stderr[-500:]}")
  return result
+def cleanup_children():
+ for proc,fp in children:
+  try:
+   if proc.poll() is None:
+    proc.kill();proc.wait(timeout=5)
+  finally:fp.close()
 try:
- with tempfile.TemporaryDirectory(prefix="flowdesk-smoke-") as temp:
+ with tempfile.TemporaryDirectory(prefix="flowdesk-smoke-") as temp, contextlib.ExitStack() as cleanup:
+  cleanup.callback(cleanup_children)
   root=Path(temp);data=root/"workspace with space";proc,admin=start(data);admin.login()
   health=admin.data("GET","/api/health");assert health["version"]==VERSION and health["profile"]=="desktop";mark("desktop startup and health")
   html,headers=admin.request("GET","/");assert isinstance(html,bytes) and b"FlowDesk" in html and headers.get("Content-Security-Policy");assets={}
@@ -86,7 +93,7 @@ try:
   original_cookie=admin.cookie;lock=offline(data,"--no-browser",want=1);assert "INSTANCE_LOCK_FAILED" in lock.stderr;mark("exclusive process lock")
   stop(proc);mark("process stopped before DB close (Linux graceful; Windows terminate only)")
   backup=offline(data,"--backup");groups=list((data/"backups").glob("backup-*"));assert groups
-  meta=json.loads((groups[-1]/"manifest.json").read_text());assert meta["software_version"]==VERSION;assert meta["database_sha256"]==hashlib.sha256((groups[-1]/"flowdesk.db").read_bytes()).hexdigest();assert (groups[-1]/"master.key").stat().st_size==32;mark("offline consistent paired backup and version manifest")
+  meta=json.loads((groups[-1]/"manifest.json").read_text(encoding="utf-8"));assert meta["software_version"]==VERSION;assert meta["database_sha256"]==hashlib.sha256((groups[-1]/"flowdesk.db").read_bytes()).hexdigest();assert (groups[-1]/"master.key").stat().st_size==32;mark("offline consistent paired backup and version manifest")
   proc,admin=start(data);admin.cookie=original_cookie
   after=admin.data("GET",path);assert after["replies"][-1]["body"]==exact;mark("restart preserves workspace, session and immutable public history")
   revision=after["ticket"]["revision"];reopened=admin.data("POST",path+"/reopen",{"expected_revision":revision},key=uuid.uuid4().hex);assert reopened["cycle_no"]==2
@@ -133,7 +140,7 @@ try:
   before=(damaged/"flowdesk.db").read_bytes();result=offline(damaged,"--diagnose",want=1);assert "DATABASE_CORRUPT" in result.stderr and "SQLite错误编号" in result.stderr and (damaged/"flowdesk.db").read_bytes()==before;mark("corrupt file gets corruption guidance instead of schema-version guidance")
   upgrade_version=None
   if a.upgrade_from:
-   old=a.upgrade_from.resolve();upgrade_version=subprocess.check_output([str(old),"--version"],text=True).strip();assert upgrade_version.startswith("FlowDesk 0.1.0;")
+   old=a.upgrade_from.resolve();upgrade_version=subprocess.check_output([str(old),"--version"],text=True,encoding="utf-8").strip();assert upgrade_version.startswith("FlowDesk 0.1.0;")
    upgraded=root/"0.1.0升级 中文路径";proc,old_client=start(upgraded,executable=old);old_client.login();cookie=old_client.cookie
    body={"title":"Preserve existing 0.1.0 ticket","description":"升级时保留这条已有工单。","category":"other","priority":"normal"}
    t=old_client.data("POST","/api/tickets",body,want=201,key=uuid.uuid4().hex);path="/api/tickets/"+t["id"]
@@ -145,12 +152,9 @@ try:
    assert current["ticket"]["description"]==body["description"] and current["replies"][-1]["body"]==reply and (upgraded/"master.key").read_bytes()==key
    with sqlite3.connect(upgraded/"flowdesk.db") as db:assert db.execute("SELECT workspace_id FROM workspace_meta").fetchone()[0]==workspace
    stop(proc);mark("real 0.1.0 workspace upgrades preserving session, ticket, published reply, workspace identity and key")
-  version=subprocess.check_output([str(binary),"--version"],text=True).strip()
-  a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(json.dumps({"version_output":version,"checks":checks,"embedded_assets_sha256":assets,"scope":"native process/API only; no real browser/provider","upgrade_from_version":upgrade_version,"windows_graceful_exit_verified":False},ensure_ascii=False,indent=2)+"\n")
+  version=subprocess.check_output([str(binary),"--version"],text=True,encoding="utf-8").strip()
+  a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(json.dumps({"version_output":version,"checks":checks,"embedded_assets_sha256":assets,"scope":"native process/API only; no real browser/provider","upgrade_from_version":upgrade_version,"windows_graceful_exit_verified":False},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
   print(f"Process/API smoke passed: {len(checks)} checks. {a.out}")
 finally:
- for proc,fp in children:
-  if proc.poll() is None:
-   proc.kill();proc.wait(timeout=5)
-  fp.close()
+ cleanup_children()
 
