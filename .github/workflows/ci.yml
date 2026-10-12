@@ -1,0 +1,42 @@
+name: local-correctness
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v6.5.0
+        with:
+          go-version: '1.27.2'
+          cache: true
+      - uses: actions/setup-node@v6.5.0
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci --prefix web
+      - run: python tools/check_contract.py
+      - run: npm test --prefix web
+      - run: npm run build --prefix web
+      - run: go vet ./...
+      - if: runner.os == 'Linux'
+        run: go test -race -timeout 180s ./...
+      - if: runner.os == 'Windows'
+        run: go test -timeout 120s ./...
+      - run: go build -buildvcs=false ./cmd/flowdesk
+      - run: python tools/smoke_release.py --binary ./flowdesk${{ runner.os == 'Windows' && '.exe' || '' }} --out smoke-result.json
+      - run: go run -buildvcs=false ./cmd/flowdesk-eval --mode plan --plan full
+# Prepared locally. Remote workflow execution is not claimed.
+
