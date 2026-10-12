@@ -131,6 +131,6 @@ for method,path,body,data,status in ops:
     v["parameters"] += [{"name":k,"in":"query","required":path=="/api/audit" or k=="format","schema":s} for k,s in query]
     doc["paths"].setdefault(path,{})[method]=v
 (ROOT/"api").mkdir(exist_ok=True)
-(ROOT/"api"/"openapi.json").write_text(json.dumps(doc,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+(ROOT/"api"/"openapi.json").write_bytes((json.dumps(doc,ensure_ascii=False,indent=2)+"\n").encode("utf-8"))
 print("OpenAPI operations:",len(ops))
 
