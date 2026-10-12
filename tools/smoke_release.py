@@ -116,7 +116,7 @@ try:
   serverdata=root/"server workspace"
   uninit=offline(serverdata,"--profile","server","--no-browser","--public-origin","https://flowdesk.example.test",want=1);assert "SERVER_BOOTSTRAP_REQUIRED" in uninit.stderr
   offline(serverdata,"--profile","server","--init-admin",stdin="owner@example.test\nSmoke owner\nServerSmokePassword!2026\nServerSmokePassword!2026\n")
-  with sqlite3.connect(serverdata/"flowdesk.db") as db:assert db.execute("SELECT COUNT(*) FROM users").fetchone()[0]==1 and db.execute("SELECT COUNT(*) FROM users WHERE email LIKE '%@flowdesk.demo'").fetchone()[0]==0
+  with contextlib.closing(sqlite3.connect(serverdata/"flowdesk.db")) as db, db:assert db.execute("SELECT COUNT(*) FROM users").fetchone()[0]==1 and db.execute("SELECT COUNT(*) FROM users WHERE email LIKE '%@flowdesk.demo'").fetchone()[0]==0
   proc,serverclient=start(serverdata,"server","https://flowdesk.example.test")
   value,headers=serverclient.request("POST","/api/auth/login",{"email":"owner@example.test","password":"ServerSmokePassword!2026"});assert value["data"]["profile"]=="server";sc=headers["Set-Cookie"];assert sc.startswith("__Host-") and "Secure" in sc and "HttpOnly" in sc and "SameSite=Strict" in sc
   ready=subprocess.run([str(binary),"--healthcheck",serverclient.address+"/api/ready","--public-origin","https://flowdesk.example.test"],capture_output=True,timeout=6);assert ready.returncode==0;mark("server bootstrap, fixed Host, secure cookie attributes and CLI readiness")
@@ -131,10 +131,10 @@ try:
   mark("offline commands refuse to initialize an empty workspace")
   proc,client=start(pristine);client.login();assert client.data("GET","/api/health")["version"]==VERSION and (pristine/"master.key").read_bytes()==old_key
   stop(proc);proc,client=start(pristine);client.login()
-  with sqlite3.connect(pristine/"flowdesk.db") as db:assert db.execute("SELECT COUNT(*) FROM users").fetchone()[0]==3 and db.execute("SELECT COUNT(*) FROM tickets").fetchone()[0]==4
+  with contextlib.closing(sqlite3.connect(pristine/"flowdesk.db")) as db, db:assert db.execute("SELECT COUNT(*) FROM users").fetchone()[0]==3 and db.execute("SELECT COUNT(*) FROM tickets").fetchone()[0]==4
   stop(proc);mark("interrupted first launch resumes in Unicode/special-character path without resetting key or duplicating seed")
   foreign=root/"foreign workspace";foreign.mkdir()
-  with sqlite3.connect(foreign/"flowdesk.db") as db:db.execute("CREATE TABLE valuable_data(value TEXT)");db.execute("INSERT INTO valuable_data VALUES('preserve')")
+  with contextlib.closing(sqlite3.connect(foreign/"flowdesk.db")) as db, db:db.execute("CREATE TABLE valuable_data(value TEXT)");db.execute("INSERT INTO valuable_data VALUES('preserve')")
   before=(foreign/"flowdesk.db").read_bytes();result=offline(foreign,"--no-browser",want=1);assert "SCHEMA_INVALID" in result.stderr and "失败步骤" in result.stderr and str(foreign) in result.stderr and (foreign/"flowdesk.db").read_bytes()==before and not (foreign/"master.key").exists();mark("foreign schema rejected with stage/path and no database/key rewrite")
   damaged=root/"damaged workspace";damaged.mkdir();(damaged/"flowdesk.db").write_bytes(b"this is not a SQLite database")
   before=(damaged/"flowdesk.db").read_bytes();result=offline(damaged,"--diagnose",want=1);assert "DATABASE_CORRUPT" in result.stderr and "SQLite错误编号" in result.stderr and (damaged/"flowdesk.db").read_bytes()==before;mark("corrupt file gets corruption guidance instead of schema-version guidance")
@@ -147,10 +147,10 @@ try:
    reply="旧版本已经发布的人工回复。"
    old_client.data("POST",path+"/reply",{"expected_revision":t["revision"],"reply_text":reply},key=uuid.uuid4().hex)
    stop(proc);key=(upgraded/"master.key").read_bytes()
-   with sqlite3.connect(upgraded/"flowdesk.db") as db:workspace=db.execute("SELECT workspace_id FROM workspace_meta").fetchone()[0]
+   with contextlib.closing(sqlite3.connect(upgraded/"flowdesk.db")) as db, db:workspace=db.execute("SELECT workspace_id FROM workspace_meta").fetchone()[0]
    proc,client=start(upgraded);client.cookie=cookie;current=client.data("GET",path)
    assert current["ticket"]["description"]==body["description"] and current["replies"][-1]["body"]==reply and (upgraded/"master.key").read_bytes()==key
-   with sqlite3.connect(upgraded/"flowdesk.db") as db:assert db.execute("SELECT workspace_id FROM workspace_meta").fetchone()[0]==workspace
+   with contextlib.closing(sqlite3.connect(upgraded/"flowdesk.db")) as db, db:assert db.execute("SELECT workspace_id FROM workspace_meta").fetchone()[0]==workspace
    stop(proc);mark("real 0.1.0 workspace upgrades preserving session, ticket, published reply, workspace identity and key")
   version=subprocess.check_output([str(binary),"--version"],text=True,encoding="utf-8").strip()
   a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(json.dumps({"version_output":version,"checks":checks,"embedded_assets_sha256":assets,"scope":"native process/API only; no real browser/provider","upgrade_from_version":upgrade_version,"windows_graceful_exit_verified":False},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
